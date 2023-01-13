@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class FamilyTree {
+public class FamilyTree implements Serializable {
     List<Human> humans;
 
     public FamilyTree(List<Human> humans){
@@ -14,31 +15,30 @@ public class FamilyTree {
         this(new ArrayList<>());
     }
     
-    /**
-     * Метод добавления нового человека в дерево
-     * @param humanId - ID человека
-     * @param name - имя человека
-     * @param birthDay - дата рождения человека
-     * @param gender - пол человека
-     * @param father - отец человека
-     * @param mother - мать человека
-     */
-    public void addNew(int humanId, String name, String birthDay, int gender, int father, int mother){
-        Human person = new Human(humanId, name, birthDay, gender, father, mother);
+    public void addNew(String name, String birthDay, int gender) {
+        Human person = new Human(name, birthDay, gender);
         humans.add(person);
     }
 
-	/**
-     * Метод добавления нового человека в дерево
-     * @param human - экземпляр класса Human
-     */
-    public void addNew(Human human){
-        humans.add(human);
+    public void addNew(String name, String birthDay, int gender, Human father, Human mother) {
+        Human person = new Human(name, birthDay, gender, father, mother);
+        humans.add(person);
+    }
+
+    public Human getByName( String nameStr) {
+        Human searchObj = new Human();
+        for (Human searching : humans) {
+            if (searching.getName().equals(nameStr)) {
+                searchObj = searching;
+            }
+        }
+        return searchObj;
     }
     
     /**
      * Метод вывода всех людей из дерева
      */
+    /*
     public void viewAllHumans(){
         for (var i : humans){
             List<Human> parents     = new ArrayList<>();
@@ -88,9 +88,11 @@ public class FamilyTree {
             System.out.println("- - - - -");
         }
     }
+    */
     /**
      * Метод поиска и вывода братьев и сестер
      */
+    /*
     public void searchBrothersAndSisters(String searchName){
         List<Human> brothersAndSisters = new ArrayList<>();
         List<Integer> tempList = new ArrayList<>();
@@ -130,4 +132,5 @@ public class FamilyTree {
             System.out.println("A person named \""+searchName+"\" has not been found in the Family Tree!");
         }
     }
+    */
 }

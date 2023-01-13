@@ -1,40 +1,69 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Human {
-    private int humanId;
+public class Human implements Serializable {
     private String name;
     private String birthDay;
     private int gender;
-    private int father;
-    private int mother;
+    private Human father;
+    private Human mother;
+    private List<Human> children;
     
-    public Human(int humanId, String name, String birthDay, int gender, int father, int mother){
-        this.humanId    = humanId;
+    public Human(){
+
+    }
+
+    /* Конструктор с 3 аргументами */
+    public Human(String name, String birthDay, int gender) {
+        this.name       = name;
+        this.birthDay   = birthDay;
+        this.gender     = gender;
+        this.father     = null;
+        this.mother     = null;
+        this.children   = new ArrayList<>();
+    }
+
+    public Human(String name, String birthDay, int gender, List<Human> children) {
+        this.name       = name;
+        this.birthDay   = birthDay;
+        this.gender     = gender;
+        this.father     = null;
+        this.mother     = null;
+        this.children   = children;
+    }
+
+    public Human(String name, String birthDay, int gender, Human father, Human mother) {
+        // this(name, birthDay, gender);
         this.name       = name;
         this.birthDay   = birthDay;
         this.gender     = gender;
         this.father     = father;
+        father.children.add(this);
         this.mother     = mother;
-        // this.children = children;
-    }
-
-    public Human(){
-
+        mother.children.add(this);
+        this.children   = new ArrayList<>();
     }
     
-    public int getHumanId(){
-        return humanId;
+    public Human(String name, String birthDay, int gender, Human father, Human mother, List<Human> children) {
+        // this(name, birthDay, gender);
+        this.name       = name;
+        this.birthDay   = birthDay;
+        this.gender     = gender;
+        this.father     = father;
+        father.children.add(this);
+        this.mother     = mother;
+        mother.children.add(this);
+        this.children   = children;
     }
-    public void setHumanId(int humanIdValue){
-        this.humanId = humanIdValue;
-    }
+
     /**
      * @return Получаем имя человека
      */
     public String getName(){
         return name;
     }
+    
     /**
      * Задаем имя человека
      * @param nameValue - имя человека
@@ -42,12 +71,14 @@ public class Human {
     public void setName(String nameValue){
         this.name = nameValue;
     }
+    
     /**
      * @return Получаем день рожденья
      */
     public String getBirthDay(){
         return birthDay;
     }
+    
     /**
      * Задаем день рожденья
      * @param birthDayValue - день рожденья
@@ -55,12 +86,14 @@ public class Human {
     public void setBirthDay(String birthDayValue){
         this.birthDay = birthDayValue;
     }
+    
     /**
      * @return Получаем пол
      */
     public int getGender(){
         return gender;
     }
+    
     /**
      * Задаем пол
      * @param genderValue - день рожденья
@@ -68,47 +101,80 @@ public class Human {
     public void setGender(int genderValue){
         this.gender = genderValue;
     }
+
+    public List<Human> getChildren() {
+        return children;
+    }
+
     /**
      * @return Получаем имя отца
      */
-    public int getFather(){
+    public Human getFather(){
         return father;
     }
+    
     /**
      * Задаем имя отца
      * @param fatherValue - имя отца
      */
-    public void setFather(int fatherValue){
+    public void setFather(Human fatherValue){
         this.father = fatherValue;
     }
+    
     /**
      * @return Получаем имя матери
      */
-    public int getMother(){
+    public Human getMother(){
         return mother;
     }
+    
     /**
      * Задаем имя матери
      * @param motherValue - имя матери
      */
-    public void setMother(int motherValue){
+    public void setMother(Human motherValue){
         this.mother = motherValue;
     }
 
     @Override
     public String toString() {
         String genStr = "";
-        if (gender == 0){
+        String appeal = "";
+        String parents = "";
+        String childList = "";
+        if (getGender() == 0){
             genStr = "female";
+            appeal = "Her";
         }
-        if (gender == 1){
+        if (getGender() == 1) {
             genStr = "male";
+            appeal = "His";
         }
         
-        return "(ID:"+humanId+") Name: "+name+", was born at: "+birthDay+", sex: "+genStr;
-    }
-    
-    public static void searchByName(String arg){
-        System.out.println(arg);
+        if (getFather() != null) {
+            parents += getFather().name;
+            if (getMother() != null) {
+                parents += ", "+getMother().name;
+            }
+        }
+        else if (getMother() != null) {
+            parents += getMother().name;
+        }
+        else{
+            parents += "was been not found";
+        }
+
+        
+        if (getChildren().size() > 0) {
+            for (var item : getChildren()) {
+                childList += " "+item.getName()+",";
+            }
+            childList = childList.substring(0, childList.length() - 1);
+        }
+        else {
+            childList += " wos been not found";
+        }
+        
+        return "Name: "+getName()+", was born at: "+getBirthDay()+", sex: "+genStr+"\n"+appeal+" parents: "+parents+"\n"+appeal+" children:"+childList+"\n- - - - -";
     }
 }
