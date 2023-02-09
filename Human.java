@@ -34,26 +34,31 @@ public class Human implements Serializable {
     }
 
     public Human(String name, String birthDay, int gender, Human father, Human mother) {
-        // this(name, birthDay, gender);
         this.name       = name;
         this.birthDay   = birthDay;
         this.gender     = gender;
         this.father     = father;
-        father.children.add(this);
+        if (father != null){
+            father.children.add(this);
+        }
         this.mother     = mother;
-        mother.children.add(this);
-        this.children   = new ArrayList<>();
+        if (mother != null){
+            mother.children.add(this);
+        }this.children   = new ArrayList<>();
     }
     
     public Human(String name, String birthDay, int gender, Human father, Human mother, List<Human> children) {
-        // this(name, birthDay, gender);
         this.name       = name;
         this.birthDay   = birthDay;
         this.gender     = gender;
         this.father     = father;
-        father.children.add(this);
+        if (father != null){
+            father.children.add(this);
+        }
         this.mother     = mother;
-        mother.children.add(this);
+        if (mother != null){
+            mother.children.add(this);
+        }
         this.children   = children;
     }
 
@@ -152,13 +157,13 @@ public class Human implements Serializable {
         }
         
         if (getFather() != null) {
-            parents += getFather().name;
+            parents += getFather().getName();
             if (getMother() != null) {
-                parents += ", "+getMother().name;
+                parents += ", "+getMother().getName();
             }
         }
         else if (getMother() != null) {
-            parents += getMother().name;
+            parents += getMother().getName();
         }
         else{
             parents += "was been not found";
@@ -172,7 +177,7 @@ public class Human implements Serializable {
             childList = childList.substring(0, childList.length() - 1);
         }
         else {
-            childList += " wos been not found";
+            childList += " was been not found";
         }
         
         return "Name: "+getName()+", was born at: "+getBirthDay()+", sex: "+genStr+"\n"+appeal+" parents: "+parents+"\n"+appeal+" children:"+childList+"\n- - - - -";

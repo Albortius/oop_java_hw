@@ -1,15 +1,10 @@
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        String fileName = "humansData.txt";
         FamilyTree familyTree = new FamilyTree();
         familyTree.addNew("Rose", "27.09.1971", 0);
         familyTree.addNew("Donald", "02.05.1968", 1);
@@ -20,31 +15,15 @@ public class Main {
         familyTree.addNew("Fill", "19.06.2019", 1, familyTree.getByName("Robert"), familyTree.getByName("Julia"));
         familyTree.addNew("Susan", "11.11.2021", 0, familyTree.getByName("Robert"), familyTree.getByName("Julia"));
         familyTree.addNew("Sam", "03.01.2023", 1, familyTree.getByName("Robert"), familyTree.getByName("Julia"));
+        familyTree.addNew("Nick", "01.01.2001", 1, null, familyTree.getByName("Rose"));
+
         
-        /*FileOutputStream outputStream = new FileOutputStream(fileName);
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-        objectOutputStream.writeObject(familyTree);
-        objectOutputStream.close();
-        */
+        TreeArchivable filework;
         
-        /*FileInputStream inputStream = new FileInputStream(fileName);
-        ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-        var familyTree = (FamilyTree) objectInputStream.readObject();
-        objectInputStream.close();;
-        */
+        CustomMenu menu = new CustomMenu();
+        menu.viewMenuChoises(familyTree);
         
-        for (var item : familyTree.humans){
-            System.out.println(item);
-        }
-        
-        System.out.println();
-        
-        System.out.println(familyTree.getByName("Julia"));
-        
+        // familyTree.viewAllHumans();
+        // System.out.println(familyTree.getByName("Rose"));
     }
-    /*private static void viewAllHumans(List<Human> list) {
-        for (Human person : list) {
-            System.out.println(person);
-        }
-    }*/
 }
